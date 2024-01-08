@@ -27,18 +27,19 @@ require_once("../resources/config.php");
     </div>
     <!-- /.row -->
 
+
+
     <!-- Page Features -->
     <div class="row text-center">
-
         <?php
-        $result = query("SELECT * FROM products WHERE product_category_id = " . escape_value($_GET['id']));
+        $result = query("SELECT * FROM products");
         confirm($result);
         while ($row = fetch_array($result)) :
             $product_id = $row['product_id'];
             $product_name = $row['product_name'];
             $product_price = $row['product_price'];
             $product_image = $row['product_image'];
-            $short_desc = substr($row['short_desc'], 0, 75);
+            $short_desc = substr($row['short_desc'], 0, 70);
 
         ?>
 
@@ -56,13 +57,9 @@ require_once("../resources/config.php");
                     </div>
                 </div>
             </div>
-
-
         <?php
         endwhile;
         ?>
-
-
     </div>
 
     <!-- /.row -->

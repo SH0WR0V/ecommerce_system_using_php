@@ -10,9 +10,9 @@ require_once("../resources/config.php");
 
 
     <!-- Jumbotron Header -->
-    <header class="jumbotron hero-spacer">
+    <header class="jumbotron hero-spacer text-justify">
         <h1>A Warm Welcome!</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
+        <p>Welcome to our ecommerce store, your one-stop destination for a seamless online shopping experience. Discover a curated selection of high-quality products across diverse categories. With user-friendly navigation, secure transactions, and top-notch customer service, we redefine convenience in e-commerce. Elevate your shopping journey with exclusive deals and a commitment to customer satisfaction. Welcome to a world of ease and style at our shop.</p>
         <p><a class="btn btn-primary btn-large">Call to action!</a>
         </p>
     </header>
@@ -64,7 +64,6 @@ require_once("../resources/config.php");
 
     <!-- /.row -->
 
-    <hr>
 
     <!-- Footer -->
 

@@ -1,8 +1,25 @@
 <?php
+// TODO: helper Functions
+function set_message($message)
+{
+    if (!empty($message)) {
+        $_SESSION['message'] = "$message";
+    } else {
+        $_SESSION['message'] = "";
+    }
+}
+
+function display_message()
+{
+    if (isset($_SESSION['message'])) {
+        echo $_SESSION['message'];
+        unset($_SESSION['message']);
+    }
+}
 
 function redirect($location)
 {
-    return header("$location");
+    return header("Location: $location");
 }
 
 function query($sql)
@@ -71,6 +88,45 @@ function get_categories()
             <a href='category.php?id={$cat_id}' class='list-group-item'>{$cat_title}</a>
             DELIMETER;
         echo $categories;
+    }
+}
+
+function login_user()
+{
+    if (isset($_POST['submit'])) {
+        $username = escape_value($_POST['username']);
+        $password = escape_value($_POST['password']);
+
+        $query = query("SELECT * FROM users WHERE username = '{$username}' AND password = '{$password}'");
+        confirm($query);
+
+        if (mysqli_num_rows($query) == 0) {
+            set_message("*invalid username or password");
+            redirect("login.php");
+        } else {
+            redirect("admin");
+        }
+    }
+}
+
+function send_message()
+{
+    if (isset($_POST['submit'])) {
+        $to = "sm.shahriar1231@gmail.com";
+        $from_name = $_POST['name'];
+        $email = $_POST['email'];
+        $subject = $_POST['subject'];
+        $message = $_POST['message'];
+
+        $headers = "From: {$from_name} {$email}";
+
+        $result = mail($to, $subject, $message, $headers);
+
+        if (!$result) {
+            set_message("sorry we couldn't send your message");
+        } else {
+            set_message("your message has been sent");
+        }
     }
 }
 

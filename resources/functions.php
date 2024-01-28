@@ -68,7 +68,7 @@ function get_products()
                             <h4><a href="item.php?id={$product_id}">{$product_name}</a>
                             </h4>
                             <p>{$short_desc}..</p>
-                            <a class="btn btn-primary" target="" href="">Add to cart</a>
+                            <a class="btn btn-primary" target="_blank" href="cart.php?add={$product_id}">Add to cart</a>
                         </div>
                     </div>
                 </div>

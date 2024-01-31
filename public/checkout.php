@@ -15,7 +15,11 @@ require_once("cart.php");
         <h1>Checkout</h1>
         <h4 class="text-center bg-warning"><?php display_message(); ?></h4>
 
-        <form action="">
+        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+            <input type="hidden" name="cmd" value="_cart">
+            <input type="hidden" name="business" value="sb-cjwng29456000@business.example.com">
+            <input type="hidden" name="currency_code" value="USD">
+            <input type="hidden" name="upload" value="1">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -30,6 +34,7 @@ require_once("cart.php");
                     <?php cart(); ?>
                 </tbody>
             </table>
+            <?php echo show_paypal_button(); ?>
         </form>
 
 

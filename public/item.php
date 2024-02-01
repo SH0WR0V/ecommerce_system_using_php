@@ -56,7 +56,7 @@ require_once("../resources/config.php");
 
                             <form action="">
                                 <div class="form-group">
-                                    <a href="cart.php?add=<?php echo $row['product_id']; ?>" class="btn btn-primary">ADD TO CART</a>
+                                    <a href="../resources/cart.php?add=<?php echo $row['product_id']; ?>" class="btn btn-primary">ADD TO CART</a>
                                 </div>
                             </form>
 

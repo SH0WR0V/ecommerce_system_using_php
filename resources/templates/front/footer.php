@@ -6,7 +6,7 @@
     <footer>
         <div class="row">
             <div class="col-lg-12">
-                <p>Copyright &copy; Your Website 2030</p>
+                <p>Copyright &copy; S. M. Shahriar e-commerce website 2024</p>
             </div>
         </div>
     </footer>

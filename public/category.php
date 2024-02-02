@@ -31,7 +31,7 @@ require_once("../resources/config.php");
     <div class="row text-center">
 
         <?php
-        $result = query("SELECT * FROM products WHERE product_category_id = " . escape_value($_GET['id']));
+        $result = query("SELECT * FROM products WHERE product_quantity >= 1 AND product_category_id = " . escape_value($_GET['id']));
         confirm($result);
         while ($row = fetch_array($result)) :
             $product_id = $row['product_id'];

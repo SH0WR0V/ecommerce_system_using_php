@@ -1,5 +1,5 @@
 <?php
-require_once("../resources/config.php");
+require_once("config.php");
 
 if (isset($_GET['add'])) {
     $query = query("SELECT * FROM products WHERE product_id = " . escape_value($_GET['add']) . " ");
@@ -92,5 +92,50 @@ function show_paypal_button()
 
         DELIMETER;
         return $show_button;
+    }
+}
+
+function report()
+{
+    global $connection;
+    if (isset($_GET['PayerID'])) {
+        $payer_id = $_GET['PayerID'];
+        $amount = $_GET['amt'];
+        $currency = $_GET['cc'];
+        $transaction = $_GET['tx'];
+        $status = $_GET['st'];
+
+        if (!empty($_SESSION)) {
+            $insert_order = query("INSERT INTO orders(payer_id, order_amount, order_transaction, order_status, order_currency) VALUES('{$payer_id}', '{$amount}', '{$transaction}', '{$status}', '{$currency}')");
+            $last_order_id = mysqli_insert_id($connection);
+            confirm($insert_order);
+        }
+
+
+        foreach ($_SESSION as $name => $value) {
+            if ($value > 0) {
+                if (substr($name, 0, 8) == 'product_') {
+                    $length = strlen($name);
+                    $length = strlen($length - 8);
+                    $id = substr($name, 8, $length);
+
+                    $remove_product = query("UPDATE products SET product_quantity = product_quantity - $value WHERE product_id = " . escape_value($id) . " ");
+                    confirm($remove_product);
+
+                    $query = query("SELECT * FROM products WHERE product_id = " . escape_value($id) . " ");
+                    confirm($query);
+                    while ($row = fetch_array($query)) {
+                        $product_name = $row['product_name'];
+                        $product_price = $row['product_price'];
+
+                        $insert_report = query("INSERT INTO reports(order_id, product_id, product_name, product_price, product_quantity) VALUES('{$last_order_id}', '{$id}', '{$product_name}', '{$product_price}', '{$value}')");
+                        confirm($insert_report);
+                    }
+                }
+            }
+        }
+        session_destroy();
+    } else {
+        redirect("index.php");
     }
 }

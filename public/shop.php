@@ -32,7 +32,7 @@ require_once("../resources/config.php");
     <!-- Page Features -->
     <div class="row text-center">
         <?php
-        $result = query("SELECT * FROM products");
+        $result = query("SELECT * FROM products WHERE product_quantity >= 1");
         confirm($result);
         while ($row = fetch_array($result)) :
             $product_id = $row['product_id'];

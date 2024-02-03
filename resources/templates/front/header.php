@@ -12,10 +12,11 @@
     <title>Shop Homepage - Start Bootstrap Template</title>
 
     <!-- Bootstrap Core CSS -->
+
+
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
 
-    <!-- Custom CSS -->
     <link href="css/shop-homepage.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
 

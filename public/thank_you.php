@@ -6,7 +6,7 @@ require_once("../resources/config.php");
 
 <?php
 
-report();
+process_transaction();
 
 ?>
 

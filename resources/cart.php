@@ -95,7 +95,7 @@ function show_paypal_button()
     }
 }
 
-function report()
+function process_transaction()
 {
     global $connection;
     if (isset($_GET['PayerID'])) {

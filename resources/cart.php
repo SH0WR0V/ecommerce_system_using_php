@@ -109,6 +109,8 @@ function process_transaction()
             $insert_order = query("INSERT INTO orders(payer_id, order_amount, order_transaction, order_status, order_currency) VALUES('{$payer_id}', '{$amount}', '{$transaction}', '{$status}', '{$currency}')");
             $last_order_id = mysqli_insert_id($connection);
             confirm($insert_order);
+        } else {
+            redirect("index.php");
         }
 
 

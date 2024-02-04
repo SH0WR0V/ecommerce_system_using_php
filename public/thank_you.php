@@ -16,7 +16,6 @@ process_transaction();
 if (isset($_GET['PayerID'])) {
     $PayerID = $_GET['PayerID'];
     $tx = $_GET['tx'];
-    $cc = $_GET['cc'];
     $amt = $_GET['amt'];
     $payer_email = $_GET['payer_email'];
     $first_name = $_GET['first_name'];
@@ -27,9 +26,6 @@ if (isset($_GET['PayerID'])) {
     $address_country_code = $_GET['address_country_code'];
     $address_zip = $_GET['address_zip'];
     $payment_status = $_GET['payment_status'];
-    // $item_name1 = $_GET['item_name1'];
-    // $quantity1 = $_GET['quantity1'];
-    // $mc_gross_1 = $_GET['mc_gross_1'];
     $payment_date = $_GET['payment_date'];
 }
 ?>
@@ -62,20 +58,28 @@ if (isset($_GET['PayerID'])) {
     }
 </style>
 
+<?php
+$last_order_id = query("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1");
+confirm($last_order_id);
+$row = fetch_array($last_order_id);
+$order_id = $row['order_id'];
+?>
+
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <div class="invoice-title">
+                        <h2 class="text-center">Invoice No. <?php echo $order_id; ?></h2>
                         <h4 class="float-end font-size-15">Payment Status: <span class="badge bg-success"><?php echo $payment_status; ?></span></h4>
                         <div class="mb-4">
-                            <h2 class="mb-1 text-muted">E-Commerce Store</h2>
+                            <h3 class="mb-1 text-muted">E-Commerce Store</h3>
                         </div>
                         <div class="text-muted">
-                            <p class="mb-1">3184 Spruce Drive Pittsburgh, PA 15201</p>
-                            <p class="mb-1"><i class="uil uil-envelope-alt me-1"></i> sm.shahriar1231@gmail.com</p>
-                            <p><i class="uil uil-phone me-1"></i>Phone - 4084897369</p>
+                            <h5 class="mb-1">3184 Spruce Drive Pittsburgh, PA 15201</h5>
+                            <h5 class="mb-1"><i class="uil uil-envelope-alt me-1"></i> sm.shahriar1231@gmail.com</h5>
+                            <h5><i class="uil uil-phone me-1"></i>Phone - 4084897369</h5>
                         </div>
                     </div>
 
@@ -85,14 +89,16 @@ if (isset($_GET['PayerID'])) {
                         <div class="col-sm-6">
                             <div class="text-muted">
                                 <h5 class="font-size-16 mb-3">Billed To: <?php if (isset($first_name)) echo $first_name; ?> <?php if (isset($last_name)) echo $last_name; ?></h5>
-                                <p class="mb-1"><?php echo $address_street;
-                                                echo ", ";
-                                                echo $address_city;
-                                                echo $address_state;
-                                                echo $address_country_code;
-                                                echo $address_zip; ?></p>
-                                <p class="mb-1"><?php echo $payer_email; ?></p>
-                                <p>001-234-5678</p>
+                                <h5 class="mb-1"><?php echo $address_street;
+                                                    echo ", ";
+                                                    echo $address_city;
+                                                    echo ", ";
+                                                    echo $address_state;
+                                                    echo ", ";
+                                                    echo $address_country_code;
+                                                    echo "-";
+                                                    echo $address_zip; ?></h5>
+                                <h5 class="mb-1"><?php echo $payer_email; ?></h5>
                             </div>
                         </div>
                         <!-- end col -->
@@ -105,17 +111,18 @@ if (isset($_GET['PayerID'])) {
                                     <h5 class="font-size-15 mb-1">Payment Date: <?php echo $payment_date; ?></h5>
                                 </div>
                                 <div class="mt-4">
-                                    <h5 class="font-size-15 mb-1">Order No:</h5>
+                                    <h5 class="font-size-15 mb-1">Transaction ID: <?php echo $tx; ?></h5>
                                 </div>
                             </div>
                         </div>
                         <!-- end col -->
                     </div>
                     <!-- end row -->
+                    <br><br>
 
                     <div class="py-2">
-                        <h5 class="font-size-15">Order Summary</h5>
-
+                        <b class="font-size-15">Order Summary:</b>
+                        <br>
                         <div class="table-responsive">
                             <table class="table align-middle table-nowrap table-centered mb-0">
                                 <thead>
@@ -132,11 +139,7 @@ if (isset($_GET['PayerID'])) {
 
 
                                         <?php
-                                        $last_order_id = query("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1");
-                                        confirm($last_order_id);
-                                        $row = fetch_array($last_order_id);
-                                        $order_id = $row['order_id'];
-                                        $report_result = query("SELECT * FROM reports WHERE order_id = " . $order_id . "");
+                                        $report_result = query("SELECT *, (product_price * product_quantity) as total FROM reports WHERE order_id = " . $order_id . "");
                                         confirm($report_result);
                                         $i = 1;
                                         while ($row = fetch_array($report_result)) {
@@ -148,16 +151,16 @@ if (isset($_GET['PayerID'])) {
                                                     <h5 class="text-truncate font-size-14 mb-1"><?php echo $row['product_name']; ?></h5>
                                                 </div>
                                             </td>
-                                            <td><?php echo $row['product_price']; ?></td>
+                                            <td>&#36;<?php echo $row['product_price']; ?></td>
                                             <td><?php echo $row['product_quantity']; ?></td>
-                                            <td class="text-end">$ 245.50</td>
+                                            <td class="text-end">&#36;<?php echo round($row['total'], 2); ?></td>
                                     </tr>
                                 <?php } ?>
                                 <!-- end tr -->
 
                                 <tr>
                                     <th scope="row" colspan="4" class="text-end">Sub Total</th>
-                                    <td class="text-end"><?php echo $amt; ?></td>
+                                    <td class="text-end">&#36;<?php echo $amt; ?></td>
                                 </tr>
                                 <!-- end tr -->
                                 <tr>
@@ -176,7 +179,7 @@ if (isset($_GET['PayerID'])) {
                                 <tr>
                                     <th scope="row" colspan="4" class="border-0 text-end">Total</th>
                                     <td class="border-0 text-end">
-                                        <h4 class="m-0 fw-semibold"><?php echo $amt; ?></h4>
+                                        <h4 class="m-0 fw-semibold">&#36;<?php echo $amt; ?></h4>
                                     </td>
                                 </tr>
                                 <!-- end tr -->

@@ -154,3 +154,46 @@ function get_orders()
         echo $display_orders;
     }
 }
+
+function get_products_in_admin()
+{
+    $result = query("SELECT * FROM products");
+    confirm($result);
+    while ($row = fetch_array($result)) {
+        $products = <<<DELIMETER
+        <tr>
+            <td>{$row['product_id']}</td>
+            <td>{$row['product_name']}<br>
+                <a href='index.php?edit_product&p_id={$row['product_id']}'><img src="{$row['product_image']}" alt="" width=250></a>
+            </td>
+            <td>{$row['product_category_id']}</td>
+            <td>{$row['product_quantity']}</td>
+            <td>&#36;{$row['product_price']}</td>
+            <td><td><a class='btn btn-danger' href='../../resources/templates/back/delete_product.php?p_id={$row['product_id']}'><span class='glyphicon glyphicon-remove'></span></a></td></td>
+        </tr>
+        DELIMETER;
+        echo $products;
+    }
+}
+
+function add_product_in_admin()
+{
+    if (isset($_POST['publish'])) {
+        $product_name = escape_value($_POST['product_name']);
+        $product_short_description = escape_value($_POST['product_short_description']);
+        $product_description = escape_value($_POST['product_description']);
+        $product_category = escape_value($_POST['product_category']);
+        $product_tags = escape_value($_POST['product_tags']);
+        $product_image = $_FILES['product_image']['name'];
+        $image_tmp_location = $_FILES['product_image']['tmp_name'];
+        $product_quantity = escape_value($_POST['product_quantity']);
+        $product_price = escape_value($_POST['product_price']);
+
+        move_uploaded_file($image_tmp_location, "../../resources/uploads/$product_image");
+
+        $add_product = query("INSERT INTO products (product_name, product_category_id, short_desc, product_description, product_tags, product_image, product_quantity, product_price) VALUES ('{$product_name}', '{$product_category}', '{$product_short_description}', '{$product_description}', '{$product_tags}', '{$product_image}', '{$product_quantity}', '{$product_price}')");
+        confirm($add_product);
+        set_message("New product {$product_name} just added");
+        redirect("index.php?view_products");
+    }
+}

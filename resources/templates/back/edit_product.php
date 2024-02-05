@@ -1,13 +1,10 @@
 <div class="col-md-12">
 
     <div class="row">
-        <h1 class="page-header">
-            Add Product
-
+        <h1 class="page-header text-center">
+            Edit Product
         </h1>
     </div>
-
-
 
     <form action="" method="post" enctype="multipart/form-data">
 

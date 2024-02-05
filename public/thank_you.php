@@ -191,6 +191,8 @@ $order_id = $row['order_id'];
                                 <a href="javascript:window.print()" class="btn btn-success me-1"><i class="fa fa-print"></i></a>
                             </div>
                         </div>
+                        <br>
+                        <h5 class="text-center">**Your order will be delivered within 3 working days!**</h5>
                     </div>
                 </div>
             </div>

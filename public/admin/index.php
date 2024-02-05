@@ -27,6 +27,8 @@ require_once("../../resources/config.php");
             include(TEMPLATE_BACK . DS . "categories.php");
         } elseif (isset($_GET['users'])) {
             include(TEMPLATE_BACK . DS . "users.php");
+        } elseif (isset($_GET['edit_product'])) {
+            include(TEMPLATE_BACK . DS . "edit_product.php");
         }
         ?>
 

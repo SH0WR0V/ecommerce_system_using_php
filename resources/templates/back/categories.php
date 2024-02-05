@@ -1,6 +1,5 @@
-<h1 class="page-header">
+<h1 class="page-header text-center">
     Product Categories
-
 </h1>
 
 

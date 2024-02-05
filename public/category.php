@@ -51,7 +51,7 @@ require_once("../resources/config.php");
                         <br><br>
                         <p><?php echo $short_desc . ".."; ?></p>
                         <p>
-                            <a href="../resources/cart.php?add=<?php echo $product_id; ?>" class="btn btn-primary">ADD TO CART</a> <a href="item.php?id=<?php echo $product_id ?>" class="btn btn-default">More Info</a>
+                            <a href="../resources/cart.php?add=<?php echo $product_id; ?>" class="btn btn-primary">Add to cart</a> <a href="item.php?id=<?php echo $product_id ?>" class="btn btn-default">More Info</a>
                         </p>
                     </div>
                 </div>

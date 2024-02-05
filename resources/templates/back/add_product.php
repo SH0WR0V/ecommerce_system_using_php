@@ -48,6 +48,7 @@ add_product_in_admin();
 
                 <select name="product_category" id="" class="form-control">
                     <option value="">Select Category</option>
+                    <?php get_categories_in_add_product(); ?>
                 </select>
             </div>
 

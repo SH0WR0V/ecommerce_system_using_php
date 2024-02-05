@@ -25,11 +25,10 @@ require_once("../resources/config.php");
             <div class="row">
 
                 <div class="col-md-7">
-                    <img class="img-responsive" src="<?php echo $row['product_image']; ?>" alt="">
-
+                    <img class="img-responsive" src="<?php echo "../resources/uploads/" . $row['product_image']; ?>" alt="">
                 </div>
 
-                <div class="col-md-5">
+                <div class=" col-md-5">
 
                     <div class="thumbnail">
 

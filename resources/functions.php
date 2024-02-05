@@ -62,7 +62,7 @@ function get_products()
         $products = <<<DELIMETER
         <div class="col-sm-4 col-lg-4 col-md-4">
                     <div class="thumbnail">
-                        <a href="item.php?id={$product_id}"><img src="{$product_image}" alt=""></a>
+                        <a href="item.php?id={$product_id}"><img src="../resources/uploads/{$product_image}" alt="" width=320px height=150px></a>
                         <div class="caption">
                             <h4 class="pull-right">&#36;{$product_price}</h4>
                             <h4><a href="item.php?id={$product_id}">{$product_name}</a>
@@ -155,18 +155,27 @@ function get_orders()
     }
 }
 
+function show_product_category_title($product_category_id)
+{
+    $cat_title = query("SELECT cat_title FROM categories WHERE cat_id = '{$product_category_id}'");
+    confirm($cat_title);
+    $cat_title = fetch_array($cat_title);
+    return $cat_title['cat_title'];
+}
+
 function get_products_in_admin()
 {
     $result = query("SELECT * FROM products");
     confirm($result);
     while ($row = fetch_array($result)) {
+        $category_title = show_product_category_title($row['product_category_id']);
         $products = <<<DELIMETER
         <tr>
             <td>{$row['product_id']}</td>
             <td>{$row['product_name']}<br>
-                <a href='index.php?edit_product&p_id={$row['product_id']}'><img src="{$row['product_image']}" alt="" width=250></a>
+                <a href='index.php?edit_product&p_id={$row['product_id']}'><img src="../../resources/uploads/{$row['product_image']}" alt="" width=300 height=210></a>
             </td>
-            <td>{$row['product_category_id']}</td>
+            <td>{$category_title}</td>
             <td>{$row['product_quantity']}</td>
             <td>&#36;{$row['product_price']}</td>
             <td><td><a class='btn btn-danger' href='../../resources/templates/back/delete_product.php?p_id={$row['product_id']}'><span class='glyphicon glyphicon-remove'></span></a></td></td>
@@ -195,5 +204,19 @@ function add_product_in_admin()
         confirm($add_product);
         set_message("New product {$product_name} just added");
         redirect("index.php?view_products");
+    }
+}
+
+function get_categories_in_add_product()
+{
+    $result = query("SELECT * FROM categories");
+    confirm($result);
+    while ($row = fetch_array($result)) {
+        $cat_id = $row['cat_id'];
+        $cat_title = $row['cat_title'];
+        $category_options = <<<DELIMETER
+        <option value="{$cat_id}">{$cat_title}</option>
+        DELIMETER;
+        echo $category_options;
     }
 }

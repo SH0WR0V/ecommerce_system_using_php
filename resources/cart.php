@@ -47,7 +47,7 @@ function cart()
         if ($value > 0) {
             if (substr($name, 0, 8) == 'product_') {
                 $length = strlen($name);
-                $length = strlen($length - 8);
+                $length = ($length - 8);
                 $id = substr($name, 8, $length);
                 $query = query("SELECT * FROM products WHERE product_id = " . escape_value($id) . " ");
                 confirm($query);
@@ -56,7 +56,8 @@ function cart()
                     $sub_quantity += $value;
                     $products = <<<DELIMETER
             <tr>
-            <td>{$row['product_name']}</td>
+            <td>{$row['product_name']}<br>
+            <img src='../resources/uploads/{$row['product_image']}' width='100px'></td>
             <td>&#36;{$row['product_price']}</td>
             <td>{$value}</td>
             <td>&#36;{$sub_total}</td>

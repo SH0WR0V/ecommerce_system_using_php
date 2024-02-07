@@ -62,16 +62,46 @@ function get_products()
         $products = <<<DELIMETER
         <div class="col-sm-4 col-lg-4 col-md-4">
                     <div class="thumbnail">
-                        <a href="item.php?id={$product_id}"><img src="../resources/uploads/{$product_image}" alt="" width=320px height=150px></a>
+                        <a href="item.php?id={$product_id}"><img src="../resources/uploads/{$product_image}" style="height:180px; width:auto;" alt=""></a>
                         <div class="caption">
                             <h4 class="pull-right">&#36;{$product_price}</h4>
                             <h4><a href="item.php?id={$product_id}">{$product_name}</a>
                             </h4>
-                            <p>{$short_desc}..</p>
+                            <p class="text-justify">{$short_desc}...</p>
                             <a class="btn btn-primary" href="../resources/cart.php?add={$product_id}">Add to cart</a>
                         </div>
                     </div>
                 </div>
+        DELIMETER;
+        echo $products;
+    }
+}
+
+function get_shop_products()
+{
+    $result = query("SELECT * FROM products WHERE product_quantity >= 1");
+    confirm($result);
+    while ($row = fetch_array($result)) {
+        $product_id = $row['product_id'];
+        $product_name = $row['product_name'];
+        $product_price = $row['product_price'];
+        $product_image = $row['product_image'];
+        $short_desc = substr($row['short_desc'], 0, 100);
+        $products = <<<DELIMETER
+        <div class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                    <img src="../resources/uploads/{$product_image}" style="height:200px; width:auto;" alt="">
+                    <div class="caption">
+                        <h4 class="pull-right">&#36;{$product_price}</h4>
+                        <h4 class="pull-left">{$product_name}</h4>
+                        <br><br>
+                        <p class="text-justify">{$short_desc}..</p>
+                        <p>
+                            <a href="../resources/cart.php?add={$product_id}" class="btn btn-primary">Add to cart</a> <a href="item.php?id={$product_id}" class="btn btn-default">More Info</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
         DELIMETER;
         echo $products;
     }
@@ -173,7 +203,7 @@ function get_products_in_admin()
         <tr>
             <td>{$row['product_id']}</td>
             <td>{$row['product_name']}<br>
-                <a href='index.php?edit_product&p_id={$row['product_id']}'><img src="../../resources/uploads/{$row['product_image']}" alt="" width=300 height=210></a>
+                <a href='index.php?edit_product&p_id={$row['product_id']}'><img src="../../resources/uploads/{$row['product_image']}" alt="" style="height:180px;"></a>
             </td>
             <td>{$category_title}</td>
             <td>{$row['product_quantity']}</td>
@@ -218,5 +248,43 @@ function get_categories_in_add_product()
         <option value="{$cat_id}">{$cat_title}</option>
         DELIMETER;
         echo $category_options;
+    }
+}
+
+function update_product_in_admin()
+{
+    if (isset($_POST['update'])) {
+        $product_name = escape_value($_POST['product_name']);
+        $product_short_description = escape_value($_POST['product_short_description']);
+        $product_description = escape_value($_POST['product_description']);
+        $product_category = escape_value($_POST['product_category']);
+        $product_tags = escape_value($_POST['product_tags']);
+        $product_image = $_FILES['product_image']['name'];
+        $image_tmp_location = $_FILES['product_image']['tmp_name'];
+        $product_quantity = escape_value($_POST['product_quantity']);
+        $product_price = escape_value($_POST['product_price']);
+
+        move_uploaded_file($image_tmp_location, "../../resources/uploads/$product_image");
+
+        if (empty($product_image)) {
+            $query_for_selecting_image = query("SELECT product_image FROM products WHERE product_id = " . escape_value($_GET['p_id']));
+            confirm($query_for_selecting_image);
+            $row = fetch_array($query_for_selecting_image);
+            $product_image = $row['product_image'];
+        }
+
+        $update_product = "UPDATE products SET product_name = '{$product_name}', ";
+        $update_product .= "short_desc = '{$product_short_description}', ";
+        $update_product .= "product_description = '{$product_description}', ";
+        $update_product .= "product_category_id = '{$product_category}', ";
+        $update_product .= "product_tags = '{$product_tags}', ";
+        $update_product .= "product_image = '{$product_image}', ";
+        $update_product .= "product_quantity = '{$product_quantity}', ";
+        $update_product .= "product_price = '{$product_price}' ";
+        $update_product .= "WHERE product_id = " . escape_value($_GET['p_id']);
+        $update_product = query($update_product);
+        confirm($update_product);
+        set_message("You have updated {$product_name} product successfully");
+        redirect("index.php?view_products");
     }
 }

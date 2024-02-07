@@ -44,7 +44,7 @@ require_once("../resources/config.php");
 
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="<?php echo $product_image; ?>" alt="">
+                    <img src="../resources/uploads/<?php echo $row['product_image']; ?>" style="height:180px; width:auto;" alt="">
                     <div class="caption">
                         <h4 class="pull-right">&#36;<?php echo $product_price; ?></h4>
                         <h4 class="pull-left"><?php echo $product_name; ?></h4>

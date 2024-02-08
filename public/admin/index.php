@@ -19,6 +19,8 @@ require_once("../../resources/config.php");
             include(TEMPLATE_BACK . DS . "admin_content.php");
         } elseif (isset($_GET['orders'])) {
             include(TEMPLATE_BACK . DS . "orders.php");
+        } elseif (isset($_GET['reports'])) {
+            include(TEMPLATE_BACK . DS . "reports.php");
         } elseif (isset($_GET['view_products'])) {
             include(TEMPLATE_BACK . DS . "products.php");
         } elseif (isset($_GET['add_product'])) {
@@ -29,6 +31,8 @@ require_once("../../resources/config.php");
             include(TEMPLATE_BACK . DS . "users.php");
         } elseif (isset($_GET['edit_product'])) {
             include(TEMPLATE_BACK . DS . "edit_product.php");
+        } elseif (isset($_GET['edit_category'])) {
+            include(TEMPLATE_BACK . DS . "edit_category.php");
         }
         ?>
 

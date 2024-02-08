@@ -67,7 +67,6 @@ require_once("../resources/config.php");
 
     <!-- /.row -->
 
-    <hr>
 
     <!-- Footer -->
 

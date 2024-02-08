@@ -13,7 +13,6 @@ add_product_in_admin();
 
     <form action="" method="post" enctype="multipart/form-data">
 
-
         <div class="col-md-8">
 
             <div class="form-group">
@@ -25,7 +24,6 @@ add_product_in_admin();
                 <label for="product_short_description">Product Short Description</label>
                 <textarea name="product_short_description" id="" cols="30" rows="3" class="form-control"></textarea>
             </div>
-
 
             <div class="form-group">
                 <label for="product_description">Product Description</label>
@@ -84,14 +82,14 @@ add_product_in_admin();
             <div class="form-group row">
                 <div class="col-md-4">
                     <label for="product-quantity">Product Quantity</label>
-                    <input type="number" name="product_quantity" class="form-control">
+                    <input type="number" name="product_quantity" class="form-control" min="0">
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-md-4">
                     <label for="product-price">Product Price</label>
-                    <input type="number" name="product_price" class="form-control">
+                    <input type="number" name="product_price" class="form-control" min="1" step=".01">
                 </div>
             </div>
 

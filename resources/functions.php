@@ -172,16 +172,54 @@ function get_orders()
     while ($row = fetch_array($get_orders)) {
         $display_orders = <<<DELIMETER
         <tr>
-            <td>{$row['order_id']}</td>
+            <td><a href='index.php?reports&o_id={$row['order_id']}'>{$row['order_id']}</a></td>
             <td>{$row['payer_id']}</td>
             <td>&#36;{$row['order_amount']}</td>
             <td>{$row['order_transaction']}</td>
-            <td>{$row['order_status']}</td>
+            <td><a href='index.php?reports&o_id={$row['order_id']}'>{$row['order_status']}</a></td>
             <td>{$row['order_currency']}</td>
             <td><a class='btn btn-danger' href='../../resources/templates/back/delete_order.php?o_id={$row['order_id']}'><span class='glyphicon glyphicon-remove'></span></a></td>
         </tr>
     DELIMETER;
         echo $display_orders;
+    }
+}
+
+function get_reports()
+{
+    $get_orders = query("SELECT * FROM reports");
+    confirm($get_orders);
+    while ($row = fetch_array($get_orders)) {
+        $display_reports = <<<DELIMETER
+        <tr>
+            <td>{$row['report_id']}</td>
+            <td>{$row['order_id']}</td>
+            <td>{$row['product_id']}</td>
+            <td>{$row['product_name']}</td>
+            <td>&#36;{$row['product_price']}</td>
+            <td>{$row['product_quantity']}</td>
+        </tr>
+    DELIMETER;
+        echo $display_reports;
+    }
+}
+
+function get_specific_report_from_orders($o_id)
+{
+    $get_orders = query("SELECT * FROM reports WHERE order_id = " . escape_value($o_id));
+    confirm($get_orders);
+    while ($row = fetch_array($get_orders)) {
+        $display_reports = <<<DELIMETER
+        <tr>
+            <td>{$row['report_id']}</td>
+            <td>{$row['order_id']}</td>
+            <td>{$row['product_id']}</td>
+            <td>{$row['product_name']}</td>
+            <td>&#36;{$row['product_price']}</td>
+            <td>{$row['product_quantity']}</td>
+        </tr>
+    DELIMETER;
+        echo $display_reports;
     }
 }
 
@@ -208,7 +246,7 @@ function get_products_in_admin()
             <td>{$category_title}</td>
             <td>{$row['product_quantity']}</td>
             <td>&#36;{$row['product_price']}</td>
-            <td><td><a class='btn btn-danger' href='../../resources/templates/back/delete_product.php?p_id={$row['product_id']}'><span class='glyphicon glyphicon-remove'></span></a></td></td>
+            <td><a class='btn btn-danger' href='../../resources/templates/back/delete_product.php?p_id={$row['product_id']}'><span class='glyphicon glyphicon-remove'></span></a></td>
         </tr>
         DELIMETER;
         echo $products;
@@ -286,5 +324,75 @@ function update_product_in_admin()
         confirm($update_product);
         set_message("You have updated {$product_name} product successfully");
         redirect("index.php?view_products");
+    }
+}
+
+function get_categories_in_admin()
+{
+    $result = query("SELECT * FROM categories");
+    confirm($result);
+    while ($row = fetch_array($result)) {
+        $categories = <<<DELIMETER
+            <tr>
+                <td>{$row['cat_id']}</td>
+                <td>{$row['cat_title']}</td>
+                <td><a class='btn btn-warning' href='index.php?edit_category&c_id={$row['cat_id']}'><span class='glyphicon glyphicon-cog'></span></a></td>
+                <td><a class='btn btn-danger' href='../../resources/templates/back/delete_category.php?c_id={$row['cat_id']}'><span class='glyphicon glyphicon-remove'></span></a></td>
+            </tr>
+        DELIMETER;
+        echo $categories;
+    }
+}
+
+function create_category_in_admin()
+{
+    if (isset($_POST['submit'])) {
+        $cat_title = $_POST['cat_title'];
+        $query = query("INSERT INTO categories(cat_title) VALUES ('{$cat_title}')");
+        confirm($query);
+        set_message("New Category {$cat_title} added");
+    }
+}
+
+function update_category_in_admin()
+{
+    if (isset($_POST['update'])) {
+        $cat_title = escape_value($_POST['cat_title']);
+
+        $update_category = "UPDATE categories SET cat_title = '{$cat_title}' ";
+        $update_category .= "WHERE cat_id = " . escape_value($_GET['c_id']);
+        $update_category = query($update_category);
+        confirm($update_category);
+        set_message("You have updated {$cat_title} category successfully");
+        redirect("index.php?categories");
+    }
+}
+
+function get_users_in_admin()
+{
+    $result = query("SELECT * FROM users");
+    confirm($result);
+    while ($row = fetch_array($result)) {
+        $users = <<<DELIMETER
+            <tr>
+                <td>{$row['user_id']}</td>
+                <td>{$row['username']}</td>
+                <td>{$row['user_email']}</td>
+                <td><a class='btn btn-danger' href='../../resources/templates/back/delete_user.php?u_id={$row['user_id']}'><span class='glyphicon glyphicon-remove'></span></a></td>
+            </tr>
+        DELIMETER;
+        echo $users;
+    }
+}
+
+function create_user_in_admin()
+{
+    if (isset($_POST['create'])) {
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $query = query("INSERT INTO users(username, user_email, password) VALUES ('{$username}', '{$email}', '{$password}')");
+        confirm($query);
+        set_message("New user {$username} added");
     }
 }

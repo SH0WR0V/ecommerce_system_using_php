@@ -98,14 +98,14 @@
                 <div class="form-group row">
                     <div class="col-md-4">
                         <label for="product-quantity">Product Quantity</label>
-                        <input type="number" name="product_quantity" class="form-control" value="<?php echo $product_quantity; ?>">
+                        <input type="number" name="product_quantity" class="form-control" min="0" value="<?php echo $product_quantity; ?>">
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <div class="col-md-4">
                         <label for="product-price">Product Price</label>
-                        <input type="number" name="product_price" class="form-control" value="<?php echo $product_price; ?>">
+                        <input type="number" name="product_price" class="form-control" min="1" step=".01" value="<?php echo $product_price; ?>">
                     </div>
                 </div>
 

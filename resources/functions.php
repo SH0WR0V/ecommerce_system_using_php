@@ -121,6 +121,22 @@ function get_categories()
     }
 }
 
+function get_specific_categories()
+{
+    $result = query("SELECT * FROM categories WHERE cat_id = " . escape_value($_GET['id']));
+    confirm($result);
+    while ($row = fetch_array($result)) {
+        $cat_id = $row['cat_id'];
+        $cat_title = $row['cat_title'];
+        $cat_description = $row['cat_description'];
+        $category_description = <<<DELIMETER
+        <h1>{$cat_title}</h1>
+        <p>{$cat_description}</p>
+        DELIMETER;
+        echo $category_description;
+    }
+}
+
 function login_user()
 {
     if (isset($_POST['submit'])) {
@@ -158,6 +174,58 @@ function send_message()
         } else {
             set_message("your message has been sent");
         }
+    }
+}
+
+// function get_reviews()
+// {
+//     $result = query("SELECT * FROM reviews WHERE product_id = " . escape_value($_GET['id']));
+//     confirm($result);
+//     while ($row = fetch_array($result)) {
+//         $get_reviews = <<<DELIMETER
+//         <hr>
+
+//         <div class="row">
+//             <div class="col-md-12">
+//             <label>
+//             foreach({$row['rating']} as <span class="glyphicon glyphicon-star"></span>){
+//                 echo "<span class="glyphicon glyphicon-star"></span>";
+//             }
+//             </label> 
+//                 <b>{$row['username']}</b>
+//                 <span class="pull-right">{$row['review_date']}</span>
+//                 <p>{$row['review']}</p>
+//             </div>
+//         </div>
+
+//         <hr>
+//         DELIMETER;
+//         echo $get_reviews;
+//     }
+// }
+
+function review_submit()
+{
+    if (isset($_POST['submit'])) {
+        $username = $_POST['username'];
+        $rating = $_POST['rate'];
+        $review = $_POST['review'];
+
+        $insert_review = query("INSERT INTO reviews(product_id, username, rating, review, review_date) VALUES('{$_GET['id']}', '{$username}', '{$rating}', '{$review}', now())");
+        confirm($insert_review);
+    }
+}
+
+function get_specific_product_avg_rating()
+{
+    $avg_rating = query("SELECT AVG(rating) FROM reviews WHERE product_id = " . escape_value($_GET['id']));
+    confirm($avg_rating);
+    while ($row = fetch_array($avg_rating)) {
+        $rounded_rating = round($row['AVG(rating)'], 2);
+        for ($i = 1; $i <= $rounded_rating; $i++) {
+            echo "<span class='glyphicon glyphicon-star'></span>";
+        }
+        return $rounded_rating;
     }
 }
 

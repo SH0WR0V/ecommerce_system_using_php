@@ -4,6 +4,8 @@ require_once("../resources/config.php");
 
 <?php include(TEMPLATE_FRONT . DS . "header.php"); ?>
 
+<?php review_submit(); ?>
+
 <!-- Page Content -->
 <div class="container">
 
@@ -39,15 +41,7 @@ require_once("../resources/config.php");
                             <h4 class=""><?php echo "&#36;" . $row['product_price']; ?></h4>
 
                             <div class="ratings">
-
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                    4.0 stars
-                                </p>
+                                <p><?php echo " " . get_specific_product_avg_rating(); ?></p>
                             </div>
 
                             <p><?php echo $row['short_desc']; ?></p>
@@ -55,7 +49,7 @@ require_once("../resources/config.php");
 
                             <form action="">
                                 <div class="form-group">
-                                    <a href="../resources/cart.php?add=<?php echo $row['product_id']; ?>" class="btn btn-primary">ADD TO CART</a>
+                                    <a href="../resources/cart.php?add=<?php echo $row['product_id']; ?>" class="btn btn-primary">Add to cart</a>
                                 </div>
                             </form>
 
@@ -94,97 +88,101 @@ require_once("../resources/config.php");
 
 
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="profile">
 
-                            <div class="col-md-6">
+                    <?php
+                endwhile;
+                    ?>
 
-                                <h3>2 Reviews From </h3>
 
-                                <hr>
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                        Anonymous
-                                        <span class="pull-right">10 days ago</span>
-                                        <p>This product was great in terms of quality. I would definitely buy another!</p>
-                                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="profile">
+
+
+                        <div class="col-md-6">
+                            <h3>Add a review</h3>
+                            <hr>
+
+                            <form action="" class="form-inline rating" method="post">
+                                <div class="form-group">
+                                    <input type="text" name="username" class="form-control" placeholder="enter your name here" required>
+                                </div><br>
+
+
+                                <div class="rate">
+                                    <input type="radio" id="star5" name="rate" value="5" />
+                                    <label for="star5" title="text">5 stars</label>
+                                    <input type="radio" id="star4" name="rate" value="4" />
+                                    <label for="star4" title="text">4 stars</label>
+                                    <input type="radio" id="star3" name="rate" value="3" checked />
+                                    <label for="star3" title="text">3 stars</label>
+                                    <input type="radio" id="star2" name="rate" value="2" />
+                                    <label for="star2" title="text">2 stars</label>
+                                    <input type="radio" id="star1" name="rate" value="1" />
+                                    <label for="star1" title="text">1 star</label>
                                 </div>
 
-                                <hr>
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                        Anonymous
-                                        <span class="pull-right">12 days ago</span>
-                                        <p>I've alredy ordered another one!</p>
-                                    </div>
+                                <br>
+
+                                <div class="form-group">
+                                    <textarea name="review" id="" cols="50" rows="8" class="form-control" placeholder="place your review here..." required></textarea>
                                 </div>
 
-                                <hr>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                        Anonymous
-                                        <span class="pull-right">15 days ago</span>
-                                        <p>I've seen some better than this, but not at this price. I definitely recommend this item.</p>
-                                    </div>
+                                <br>
+                                <br>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary" name="submit" value="Submit">
                                 </div>
-
-                            </div>
-
-
-                            <div class="col-md-6">
-                                <h3>Add A review</h3>
-
-                                <form action="" class="form-inline">
-                                    <div class="form-group">
-                                        <label for="">Name</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Email</label>
-                                        <input type="test" class="form-control">
-                                    </div>
-
-                                    <div>
-                                        <h3>Your Rating</h3>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    </div>
-
-                                    <br>
-
-                                    <div class="form-group">
-                                        <textarea name="" id="" cols="60" rows="10" class="form-control"></textarea>
-                                    </div>
-
-                                    <br>
-                                    <br>
-                                    <div class="form-group">
-                                        <input type="submit" class="btn btn-primary" value="SUBMIT">
-                                    </div>
-                                </form>
-
-                            </div>
+                            </form>
 
                         </div>
+
+
+
+                        <div class="col-md-6">
+
+                            <?php
+                            if (isset($_GET['id'])) {
+                                $result = query("SELECT * FROM reviews WHERE product_id = " . escape_value($_GET['id']));
+                                confirm($result);
+                                $num = mysqli_num_rows($result);
+                                echo "<h3>" . $num . " Reviews From </h3>";
+                                while ($row = fetch_array($result)) {
+                                    $rating = $row['rating'];
+                                    $username = $row['username'];
+                                    $review_date = $row['review_date'];
+                                    $review = $row['review'];
+                            ?>
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <?php
+                                            for ($i = 1; $i <= $rating; $i++) {
+                                            ?>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                            <?php
+                                            }
+                                            ?>
+                                            <b><?php echo $username; ?></b>
+                                            <span class="pull-right"><?php echo $review_date; ?></span>
+                                            <p><?php echo $review; ?></p>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                            <?php
+                                }
+                            }
+                            ?>
+
+                        </div>
+
+
+
+
+                    </div>
 
                     </div>
 
@@ -197,9 +195,7 @@ require_once("../resources/config.php");
 
 
         </div>
-    <?php
-    endwhile;
-    ?>
+
 
 </div>
 <!-- /.container -->
